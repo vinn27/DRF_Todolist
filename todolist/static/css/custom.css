@@ -1,0 +1,64 @@
+/* custom.css */
+
+/* Body styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #6699ff, #99ccff, #cce5ff, #e6f0ff);
+
+
+
+    padding-top: 4rem;
+
+}
+
+/* Navbar styles */
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    color: #333333;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #007bff;
+}
+
+/* Card styles */
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    color: #333333;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* Form styles */
+.form-label {
+    font-weight: bold;
+}
+
+.form-control {
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+

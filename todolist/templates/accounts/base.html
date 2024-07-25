@@ -1,0 +1,76 @@
+<!-- base.html -->
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <style>
+        .glow {
+    color: #fff; /* Base text color */
+    text-align: center; /* Center-align the text */
+    text-shadow:
+        0 0 10px #ff0000, 0 0 20px #ff0000,
+        0 0 30px #ff0000, 0 0 40px #ff0000,
+        0 0 50px #ff0000, 0 0 60px #ff0000;
+    animation: pulseGlow 1.5s ease-in-out infinite, heartbeat 1s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { text-shadow:
+        0 0 10px #ff0000, 0 0 20px #ff0000,
+        0 0 30px #ff0000, 0 0 40px #ff0000,
+        0 0 50px #ff0000, 0 0 60px #ff0000;
+    }
+    50% { text-shadow:
+        0 0 20px #ff0000, 0 0 30px #ff0000,
+        0 0 40px #ff0000, 0 0 50px #ff0000,
+        0 0 60px #ff0000, 0 0 70px #ff0000;
+    }
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    20% { transform: scale(1.1); }
+    40% { transform: scale(0.95); }
+    60% { transform: scale(1.1); }
+    80% { transform: scale(0.95); }
+}
+
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}To-Do List App{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+</head>
+<body>
+ <h3 style="text-align:center" >Welcome! <b class="glow">{{username}}</b></h3>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <div class="container">
+
+            <a class="navbar-brand" href="#"><b>To-Do List App</b></a>
+
+            <ul class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logoutUser' %}"><b>Logout</b></a>
+                    </li>
+                {% else %}
+
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

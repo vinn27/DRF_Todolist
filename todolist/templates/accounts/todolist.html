@@ -1,0 +1,100 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}To-Do List{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(to left,
+    #e3f2fd,   /* Very light blue */
+    #bbdefb,   /* Light blue */
+    #90caf9,   /* Medium light blue */
+    #64b5f6,   /* Light blue with a bit more depth */
+    #42a5f5,   /* Light blue */
+    #2196f3,   /* Bright blue */
+    #1e88e5,   /* Slightly darker blue */
+    #1976d2,   /* Strong blue */
+    #1565c0    /* Darker blue */
+);
+    }
+
+</style>
+
+<h2>My To-Do List</h2>
+
+<!-- Add Task Form -->
+<form method="post" action="{% url 'todolist_UI' %}" class="mb-4">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="Enter task title" required>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter task description"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Task</button>
+</form>
+
+<!-- Edit Task Modal -->
+<div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTaskModalLabel">Edit Task</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-task-form" method="post" action="">
+                    {% csrf_token %}
+                    <input type="hidden" id="edit-task-id" name="task_id">
+                    <input type="hidden" name="_method" value="PUT">
+                    <div class="mb-3">
+                        <label for="edit-title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="edit-title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-description" class="form-label">Description</label>
+                        <textarea class="form-control" id="edit-description" name="description" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Task List -->
+<div class="row" id="task-list">
+    {% for task in tasks %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="card-title"><strong>Title:</strong> {{ task.title }}</p>
+                    <p class="card-text"><strong>Description:</strong> {{ task.description }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <div>
+                        <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal" onclick="populateEditForm({{ task.id }}, '{{ task.title }}', '{{ task.description }}')">Edit</a>
+                        <form method="post" action="{% url 'task_delete_api' %}" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="task_id" value="{{ task.id }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+function populateEditForm(taskId, title, description) {
+    document.getElementById('edit-task-id').value = taskId;
+    document.getElementById('edit-title').value = title;
+    document.getElementById('edit-description').value = description;
+    document.getElementById('edit-task-form').action = `{% url 'task_update_api' user_id=request.user.id task_id=0 %}`.replace('0', taskId);
+}
+</script>
+{% endblock %}
