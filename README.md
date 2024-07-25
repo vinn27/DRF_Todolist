@@ -23,7 +23,7 @@ Features :
 * Responsive Design: Designed to be usable on both desktop and mobile devices.
 ---------------------------------------------------------------------------------------
   
-** Technologies Used
+* Technologies Used
     ** Backend: Django
     ** Database: MySQL
     ** Frontend: HTML, CSS, Bootstrap
